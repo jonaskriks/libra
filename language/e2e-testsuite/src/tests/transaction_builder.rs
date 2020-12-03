@@ -1,4 +1,4 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 //! Tests for all of the script encoding functions in language/transaction_builder/lib.rs.
@@ -8,6 +8,13 @@
 
 #![forbid(unsafe_code)]
 
+use diem_crypto::{ed25519::Ed25519PrivateKey, traits::SigningKey, PrivateKey, Uniform};
+use diem_types::{
+    account_address::AccountAddress,
+    account_config,
+    transaction::{authenticator::AuthenticationKey, Script, TransactionOutput, TransactionStatus},
+    vm_status::{KeptVMStatus, StatusCode},
+};
 use language_e2e_tests::{
     account::{self, Account},
     common_transactions::rotate_key_txn,
@@ -15,13 +22,6 @@ use language_e2e_tests::{
     executor::FakeExecutor,
     gas_costs,
     keygen::KeyGen,
-};
-use libra_crypto::{ed25519::Ed25519PrivateKey, traits::SigningKey, PrivateKey, Uniform};
-use libra_types::{
-    account_address::AccountAddress,
-    account_config,
-    transaction::{authenticator::AuthenticationKey, Script, TransactionOutput, TransactionStatus},
-    vm_status::{KeptVMStatus, StatusCode},
 };
 use move_core_types::language_storage::TypeTag;
 use transaction_builder::*;
@@ -643,7 +643,7 @@ fn create_dual_attestation_payment(
     ref_id: Vec<u8>,
     receiver_compliance_private_key: &Ed25519PrivateKey,
 ) -> Script {
-    let mut domain_separator = b"@@$$LIBRA_ATTEST$$@@".to_vec();
+    let mut domain_separator = b"@@$$DIEM_ATTEST$$@@".to_vec();
     let message = {
         let mut msg = ref_id.clone();
         msg.append(&mut lcs::to_bytes(&sender_address).unwrap());

@@ -1,9 +1,9 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-//! A model to test properties of common Libra transactions.
+//! A model to test properties of common Diem transactions.
 //!
-//! The structs and functions in this module together form a simplified *model* of how common Libra
+//! The structs and functions in this module together form a simplified *model* of how common Diem
 //! transactions should behave. This model is then used as an *oracle* for property-based tests --
 //! the results of executing transactions through the VM should match the results computed using
 //! this model.
@@ -27,8 +27,8 @@ use crate::{
     executor::FakeExecutor,
     gas_costs, transaction_status_eq,
 };
-use libra_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
-use libra_types::{
+use diem_crypto::ed25519::{Ed25519PrivateKey, Ed25519PublicKey};
+use diem_types::{
     transaction::{SignedTransaction, TransactionStatus},
     vm_status::{known_locations, KeptVMStatus, StatusCode},
 };
@@ -250,7 +250,7 @@ pub fn txn_one_account_result(
     gas_used: u64,
     low_gas_used: u64,
 ) -> (TransactionStatus, bool) {
-    // The transactions set the gas cost to 1 microlibra.
+    // The transactions set the gas cost to 1 microdiem.
     let enough_max_gas = sender.balance >= gas_costs::TXN_RESERVED * gas_price;
     // This means that we'll get through the main part of the transaction.
     let enough_to_transfer = sender.balance >= amount;

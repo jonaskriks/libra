@@ -1,16 +1,8 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-use language_e2e_tests::{
-    account::{self, Account},
-    assert_prologue_parity,
-    common_transactions::rotate_key_txn,
-    current_function_name,
-    executor::FakeExecutor,
-    transaction_status_eq,
-};
-use libra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
-use libra_types::{
+use diem_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
+use diem_types::{
     access_path::AccessPath,
     account_config::{coin1_tmp_tag, CORE_CODE_ADDRESS},
     chain_id::{ChainId, NamedChain},
@@ -22,6 +14,14 @@ use libra_types::{
     vm_status::{KeptVMStatus, StatusCode},
     write_set::{WriteOp, WriteSet, WriteSetMut},
 };
+use language_e2e_tests::{
+    account::{self, Account},
+    assert_prologue_parity,
+    common_transactions::rotate_key_txn,
+    current_function_name,
+    executor::FakeExecutor,
+    transaction_status_eq,
+};
 use move_core_types::{
     identifier::Identifier,
     language_storage::{ResourceKey, StructTag},
@@ -31,7 +31,7 @@ use move_core_types::{
 fn invalid_write_set_signer() {
     let mut executor = FakeExecutor::from_genesis_file();
     executor.set_golden_file(current_function_name!());
-    let genesis_account = Account::new_libra_root();
+    let genesis_account = Account::new_diem_root();
     executor.new_block();
 
     // Create a WriteSet that adds an account on a new address.
@@ -62,7 +62,7 @@ fn invalid_write_set_signer() {
 fn verify_and_execute_writeset() {
     let mut executor = FakeExecutor::from_genesis_file();
     executor.set_golden_file(current_function_name!());
-    let genesis_account = Account::new_libra_root();
+    let genesis_account = Account::new_diem_root();
     executor.new_block();
 
     // Create a WriteSet that adds an account on a new address.
@@ -90,7 +90,7 @@ fn verify_and_execute_writeset() {
 
     executor.apply_write_set(output.write_set());
 
-    let updated_libra_root_account = executor
+    let updated_diem_root_account = executor
         .read_account_resource(&genesis_account)
         .expect("sender must exist");
     let updated_sender = executor
@@ -103,7 +103,7 @@ fn verify_and_execute_writeset() {
         )
         .expect("sender balance must exist");
 
-    assert_eq!(2, updated_libra_root_account.sequence_number());
+    assert_eq!(2, updated_diem_root_account.sequence_number());
     assert_eq!(0, updated_sender_balance.coin());
     assert_eq!(10, updated_sender.sequence_number());
 
@@ -133,14 +133,14 @@ fn verify_and_execute_writeset() {
 fn bad_writesets() {
     let mut executor = FakeExecutor::from_genesis_file();
     executor.set_golden_file(current_function_name!());
-    let genesis_account = Account::new_libra_root();
+    let genesis_account = Account::new_diem_root();
     executor.new_block();
 
     // Create a WriteSet that adds an account on a new address
     let new_account_data = executor.create_raw_account_data(1000, 10);
     let write_set = new_account_data.to_writeset();
 
-    // (1) A WriteSet signed by an arbitrary account, not Libra root, should be rejected.
+    // (1) A WriteSet signed by an arbitrary account, not Diem root, should be rejected.
     let writeset_txn = new_account_data
         .account()
         .transaction()
@@ -171,13 +171,13 @@ fn bad_writesets() {
         &TransactionStatus::Discard(StatusCode::INVALID_WRITE_SET)
     );
 
-    // (3) A WriteSet attempting to change LibraWriteSetManager should be dropped.
+    // (3) A WriteSet attempting to change DiemWriteSetManager should be dropped.
     let key = ResourceKey::new(
         *genesis_account.address(),
         StructTag {
             address: CORE_CODE_ADDRESS,
-            module: Identifier::new("LibraAccount").unwrap(),
-            name: Identifier::new("LibraWriteSetManager").unwrap(),
+            module: Identifier::new("DiemAccount").unwrap(),
+            name: Identifier::new("DiemWriteSetManager").unwrap(),
             type_params: vec![],
         },
     );
@@ -197,13 +197,13 @@ fn bad_writesets() {
         &TransactionStatus::Discard(StatusCode::INVALID_WRITE_SET)
     );
 
-    // (4) A WriteSet attempting to change Libra root AccountResource should be dropped.
+    // (4) A WriteSet attempting to change Diem root AccountResource should be dropped.
     let key = ResourceKey::new(
         *genesis_account.address(),
         StructTag {
             address: CORE_CODE_ADDRESS,
-            module: Identifier::new("LibraAccount").unwrap(),
-            name: Identifier::new("LibraAccount").unwrap(),
+            module: Identifier::new("DiemAccount").unwrap(),
+            name: Identifier::new("DiemAccount").unwrap(),
             type_params: vec![],
         },
     );
@@ -292,7 +292,7 @@ fn bad_writesets() {
 fn transfer_and_execute_writeset() {
     let mut executor = FakeExecutor::from_genesis_file();
     executor.set_golden_file(current_function_name!());
-    let genesis_account = Account::new_libra_root();
+    let genesis_account = Account::new_diem_root();
     let blessed_account = Account::new_blessed_tc();
     executor.new_block();
 
@@ -325,7 +325,7 @@ fn transfer_and_execute_writeset() {
 
     executor.apply_write_set(output.write_set());
 
-    let updated_libra_root_account = executor
+    let updated_diem_root_account = executor
         .read_account_resource(&genesis_account)
         .expect("sender must exist");
     let updated_sender = executor
@@ -338,7 +338,7 @@ fn transfer_and_execute_writeset() {
         )
         .expect("sender balance must exist");
 
-    assert_eq!(2, updated_libra_root_account.sequence_number());
+    assert_eq!(2, updated_diem_root_account.sequence_number());
     assert_eq!(0, updated_sender_balance.coin());
     assert_eq!(10, updated_sender.sequence_number());
 

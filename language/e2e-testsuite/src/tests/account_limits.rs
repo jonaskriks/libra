@@ -1,19 +1,19 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
 use compiler::Compiler;
-use language_e2e_tests::{
-    account::{self, Account},
-    current_function_name,
-    executor::FakeExecutor,
-};
-use libra_types::{
+use diem_types::{
     account_address::AccountAddress,
     account_config,
     transaction::{Script, TransactionArgument, TransactionOutput, WriteSetPayload},
     vm_status::KeptVMStatus,
+};
+use language_e2e_tests::{
+    account::{self, Account},
+    current_function_name,
+    executor::FakeExecutor,
 };
 use transaction_builder::*;
 
@@ -31,10 +31,10 @@ fn encode_add_account_limits_admin_script(execute_as: AccountAddress) -> WriteSe
     import 0x1.Coin1;
     import 0x1.Signer;
 
-    main(lr_account: &signer, vasp: &signer) {
+    main(dr_account: &signer, vasp: &signer) {
         AccountLimits.publish_unrestricted_limits<Coin1.Coin1>(copy(vasp));
         AccountLimits.publish_window<Coin1.Coin1>(
-            move(lr_account),
+            move(dr_account),
             copy(vasp),
             Signer.address_of(move(vasp))
         );
@@ -165,7 +165,7 @@ fn account_limits() {
     let vasp_b = executor.create_raw_account();
     let vasp_a_child = executor.create_raw_account();
     let vasp_b_child = executor.create_raw_account();
-    let libra_root = Account::new_libra_root();
+    let diem_root = Account::new_diem_root();
     let blessed = Account::new_blessed_tc();
     let dd = Account::new_genesis_account(account_config::testnet_dd_account_address());
 
@@ -236,7 +236,7 @@ fn account_limits() {
     );
 
     executor.execute_and_apply(
-        libra_root
+        diem_root
             .transaction()
             .write_set(encode_add_account_limits_admin_script(*vasp_a.address()))
             .sequence_number(1)
@@ -244,7 +244,7 @@ fn account_limits() {
     );
 
     executor.execute_and_apply(
-        libra_root
+        diem_root
             .transaction()
             .write_set(encode_add_account_limits_admin_script(*vasp_b.address()))
             .sequence_number(2)

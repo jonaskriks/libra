@@ -1,10 +1,10 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 #![forbid(unsafe_code)]
 
+use diem_types::{account_config, vm_status::KeptVMStatus};
 use language_e2e_tests::{account::Account, current_function_name, executor::FakeExecutor};
-use libra_types::{account_config, vm_status::KeptVMStatus};
 use move_core_types::vm_status::VMStatus;
 use move_vm_types::values::Value;
 use transaction_builder::*;

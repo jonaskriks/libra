@@ -1,14 +1,14 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-use language_e2e_tests::{account, current_function_name, executor::FakeExecutor};
-use libra_types::{
+use diem_types::{
     account_address::AccountAddress,
     account_config,
     on_chain_config::VMPublishingOption,
     transaction::{Script, TransactionStatus},
     vm_status::KeptVMStatus,
 };
+use language_e2e_tests::{account, current_function_name, executor::FakeExecutor};
 use move_core_types::{
     identifier::Identifier,
     language_storage::{StructTag, TypeTag},

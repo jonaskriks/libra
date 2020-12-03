@@ -1,16 +1,16 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 // The config holds the options that define the testing environment.
 // A config entry starts with "//!", differentiating it from a directive.
 
 use crate::{errors::*, genesis_accounts::make_genesis_accounts};
+use diem_crypto::PrivateKey;
+use diem_types::account_config;
 use language_e2e_tests::{
     account::{Account, AccountData, AccountRoleSpecifier},
     keygen::KeyGen,
 };
-use libra_crypto::PrivateKey;
-use libra_types::account_config;
 use move_core_types::identifier::Identifier;
 use once_cell::sync::Lazy;
 use std::{
@@ -42,7 +42,7 @@ impl FromStr for Balance {
 
     fn from_str(s: &str) -> Result<Self> {
         // TODO: Try to get this from the on-chain config?
-        let coin_types = vec!["LBR", "Coin1"];
+        let coin_types = vec!["XDM", "Coin1"];
         let mut coin_type: Vec<&str> = coin_types.into_iter().filter(|x| s.ends_with(x)).collect();
         let currency_code = coin_type.pop().unwrap_or("Coin1");
         if !coin_type.is_empty() {

@@ -1,14 +1,14 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 use compiled_stdlib::transaction_scripts::StdlibScript;
-use language_e2e_tests::{account::Account, current_function_name, executor::FakeExecutor};
-use libra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
-use libra_types::{
+use diem_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, Uniform};
+use diem_types::{
     account_config::{self, BurnEvent, COIN1_NAME},
     transaction::{authenticator::AuthenticationKey, Script, TransactionArgument},
     vm_status::KeptVMStatus,
 };
+use language_e2e_tests::{account::Account, current_function_name, executor::FakeExecutor};
 use move_core_types::{
     identifier::Identifier,
     language_storage::{StructTag, TypeTag},

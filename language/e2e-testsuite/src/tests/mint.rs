@@ -1,17 +1,17 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
+use diem_types::{
+    account_config,
+    transaction::TransactionStatus,
+    vm_status::{known_locations, KeptVMStatus},
+};
 use language_e2e_tests::{
     account::{self, Account},
     current_function_name,
     executor::FakeExecutor,
     gas_costs::TXN_RESERVED,
     transaction_status_eq,
-};
-use libra_types::{
-    account_config,
-    transaction::TransactionStatus,
-    vm_status::{known_locations, KeptVMStatus},
 };
 use transaction_builder::*;
 

@@ -1,15 +1,8 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 use compiled_stdlib::transaction_scripts::StdlibScript;
-use language_e2e_tests::{
-    account::{self, Account},
-    common_transactions::peer_to_peer_txn,
-    current_function_name,
-    executor::FakeExecutor,
-    transaction_status_eq,
-};
-use libra_types::{
+use diem_types::{
     account_config::{self, ReceivedPaymentEvent, SentPaymentEvent},
     on_chain_config::VMPublishingOption,
     transaction::{
@@ -17,12 +10,19 @@ use libra_types::{
     },
     vm_status::{known_locations, KeptVMStatus},
 };
+use language_e2e_tests::{
+    account::{self, Account},
+    common_transactions::peer_to_peer_txn,
+    current_function_name,
+    executor::FakeExecutor,
+    transaction_status_eq,
+};
 use std::{convert::TryFrom, time::Instant};
 use vm::file_format::{Bytecode, CompiledScript};
 
 #[test]
 fn single_peer_to_peer_with_event() {
-    ::libra_logger::Logger::init_for_testing();
+    ::diem_logger::Logger::init_for_testing();
     // create a FakeExecutor with a genesis from file
     let mut executor = FakeExecutor::from_genesis_file();
     executor.set_golden_file(current_function_name!());
@@ -79,7 +79,7 @@ fn single_peer_to_peer_with_event() {
 
 #[test]
 fn single_peer_to_peer_with_padding() {
-    ::libra_logger::Logger::init_for_testing();
+    ::diem_logger::Logger::init_for_testing();
     // create a FakeExecutor with a genesis from file
     let mut executor =
         FakeExecutor::from_genesis_with_options(VMPublishingOption::custom_scripts());
@@ -279,7 +279,7 @@ impl TxnInfo {
 }
 
 // Create a cyclic transfer around a slice of Accounts.
-// Each Account makes a transfer for the same amount to the next LibraAccount.
+// Each Account makes a transfer for the same amount to the next DiemAccount.
 fn create_cyclic_transfers(
     executor: &FakeExecutor,
     accounts: &[Account],

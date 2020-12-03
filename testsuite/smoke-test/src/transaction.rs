@@ -1,9 +1,9 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::test_utils::setup_swarm_and_client_proxy;
-use libra_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, SigningKey, Uniform};
-use libra_types::{account_config::COIN1_NAME, transaction::authenticator::AuthenticationKey};
+use diem_crypto::{ed25519::Ed25519PrivateKey, PrivateKey, SigningKey, Uniform};
+use diem_types::{account_config::COIN1_NAME, transaction::authenticator::AuthenticationKey};
 
 #[test]
 fn test_external_transaction_signer() {

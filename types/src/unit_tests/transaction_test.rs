@@ -1,4 +1,4 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
 use crate::{
@@ -10,11 +10,11 @@ use crate::{
         TransactionListWithProof, TransactionPayload, TransactionWithProof,
     },
 };
-use lcs::test_helpers::assert_canonical_encode_decode;
-use libra_crypto::{
+use diem_crypto::{
     ed25519::{self, Ed25519PrivateKey, Ed25519Signature},
     PrivateKey, Uniform,
 };
+use lcs::test_helpers::assert_canonical_encode_decode;
 use proptest::prelude::*;
 use std::convert::TryFrom;
 
@@ -41,10 +41,10 @@ fn test_invalid_signature() {
 #[test]
 fn test_role_ordering() {
     use GovernanceRole::*;
-    assert!(LibraRoot.priority() > TreasuryCompliance.priority());
-    assert!(LibraRoot.priority() > Validator.priority());
-    assert!(LibraRoot.priority() > ValidatorOperator.priority());
-    assert!(LibraRoot.priority() > DesignatedDealer.priority());
+    assert!(DiemRoot.priority() > TreasuryCompliance.priority());
+    assert!(DiemRoot.priority() > Validator.priority());
+    assert!(DiemRoot.priority() > ValidatorOperator.priority());
+    assert!(DiemRoot.priority() > DesignatedDealer.priority());
 
     assert!(TreasuryCompliance.priority() > Validator.priority());
     assert!(TreasuryCompliance.priority() > ValidatorOperator.priority());

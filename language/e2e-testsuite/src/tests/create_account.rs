@@ -1,13 +1,13 @@
-// Copyright (c) The Libra Core Contributors
+// Copyright (c) The Diem Core Contributors
 // SPDX-License-Identifier: Apache-2.0
 
+use diem_types::{account_config, transaction::TransactionStatus, vm_status::KeptVMStatus};
 use language_e2e_tests::{
     account::{self, Account},
     common_transactions::create_account_txn,
     current_function_name,
     executor::FakeExecutor,
 };
-use libra_types::{account_config, transaction::TransactionStatus, vm_status::KeptVMStatus};
 
 #[test]
 fn create_account() {
